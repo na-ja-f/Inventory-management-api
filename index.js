@@ -9,7 +9,7 @@ const app = express()
 // ! cors setup
 app.use(
     cors({
-        origin: "http://localhost:5173",
+        origin: "https://inventory-management-najaf.vercel.app",
         methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
         credentials: true,
     })
