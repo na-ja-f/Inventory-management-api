@@ -19,6 +19,7 @@ const login = asyncHandler(async (req, res) => {
         res.json({
             message: "Login Successful",
             token: generateToken(employee.id),
+            _id: employee.id,
         });
     } else {
         res.status(400);
@@ -37,6 +38,8 @@ const getProducts = asyncHandler(async (req, res) => {
 // ? PATCH /post/remove-products
 const removeProduct = asyncHandler(async (req, res) => {
     const { productId, quantity } = req.body
+    console.log(productId, quantity);
+    
     const product = await Product.findById(productId)
     product.quantity -= quantity
     await product.save()
@@ -45,21 +48,9 @@ const removeProduct = asyncHandler(async (req, res) => {
     res.status(200).json(products)
 })
 
-// ! add product to inventory
-// ? PATCH /post/remove-products
-const addProduct = asyncHandler(async (req, res) => {
-    const { productId, quantity } = req.body
-    const product = await Product.findById(productId)
-    product.quantity += parseInt(quantity)
-    await product.save()
-
-    const products = await Product.find()
-    res.status(200).json(products)
-})
 
 module.exports = {
     login,
     getProducts,
     removeProduct,
-    addProduct
 }

@@ -3,12 +3,13 @@ const dotenv = require("dotenv").config()
 const connectDB = require("./config/db")
 const cors = require("cors")
 
+
 const app = express()
 
 // ! cors setup
 app.use(
     cors({
-        origin: "http://localhost:3000",
+        origin: "http://localhost:5173",
         methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
         credentials: true,
     })
