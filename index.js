@@ -3,6 +3,8 @@ const dotenv = require("dotenv").config()
 const connectDB = require("./config/db")
 const cors = require("cors")
 const cron = require("node-cron"); // Import node-cron
+const https = require('https'); // Import https module
+
 
 
 const app = express()
@@ -32,13 +34,16 @@ app.get('/health', (req, res) => {
 // ! routes
 app.use('/api/', require('./routes/route'))
 
-app.listen(port, () => console.log(`server running on ${port}`))
-
 // Schedule a cron job to keep the server awake every 15 minutes
 cron.schedule('*/15 * * * *', () => {
     console.log('Running cron job to keep the server awake...');
-    const https = require('https');
     https.get(`https://inventory-management-backend-zviu.onrender.com/health`, (res) => {
         console.log(`Health check response: ${res.statusCode}`);
+    }).on('error', (err) => {
+        console.error(`Error making health check request: ${err.message}`);
     });
 });
+
+app.listen(port, () => console.log(`server running on ${port}`))
+
+
